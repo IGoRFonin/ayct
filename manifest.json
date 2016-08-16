@@ -3,10 +3,11 @@
 	"description" : "extension check your commit today",
 	"version" : "0.1",
 	"manifest_version": 2,
-	"app" : {
-		"background" : {
-			"scripts" : ["background.js"]
-		}
+	"browser_action": {
+		"default_icon": "icons/github-danger.png"
 	},
-	"icons": { "16":"calculartor-16.png", "128": "calculartor-128" }
+	"background" : {
+		"scripts" : ["js/background.js", "js/jquery.min.js"]
+	},
+	"icons": { "16":"icons/github-danger.png", "128": "icons/github-main.png" }
 }
