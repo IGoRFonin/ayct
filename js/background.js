@@ -1,7 +1,8 @@
 var icons = {
 	good : "icons/github-good.png",
 	ex: "icons/github-ex.png",
-	empty: "icons/empty_username.png"
+	empty: "icons/empty_username.png",
+	bad: "icons/github-danger.png"
 }, userName, commits = 0,
 	startDay = new Date(),
 	endDay = new Date(),
@@ -89,6 +90,9 @@ function todayCommit(string) {
 }
 
 function changeIcon() {
+	if(commits == 0) {
+		chrome.browserAction.setIcon({path: {"16": icons.bad }});
+	}
 	if(commits > 0) {
 		chrome.browserAction.setIcon({path: {"16": icons.good }});
 	}
