@@ -4,7 +4,8 @@ var icons = {
 	empty: "icons/empty_username.png"
 }, userName, commits = 0,
 	startDay = new Date(),
-	endDay = new Date();
+	endDay = new Date(),
+	TIMER = 120000;
 
 startDay.setHours(0);
 startDay.setMinutes(0);
@@ -15,7 +16,6 @@ endDay.setSeconds(59);
 
 startDay = startDay.getTime();
 endDay = endDay.getTime();
-var promise;
 
 chrome.storage.sync.get(function(items) {
 	if(!items.userName || items.userName == "") {
@@ -23,12 +23,18 @@ chrome.storage.sync.get(function(items) {
 		return;
 	}
 	userName = items.userName;
-	new Promise(function(resolve, reject) {
-		getProjects(resolve)
-	}).then(changeIcon);
+	startRequest();
+	setInterval(function() {
+		startRequest();
+	}, TIMER);
 });
 
-
+function startRequest() {
+	new Promise(function(resolve, reject) {
+			getProjects(resolve)
+		}).then(changeIcon);
+	commits = 0;
+}
 
 function getProjects(resolve) {
 	var projectNames = [];
@@ -87,7 +93,7 @@ function changeIcon() {
 		chrome.browserAction.setIcon({path: {"16": icons.good }});
 	}
 
-	if(commits > 3) {
+	if(commits > 4) {
 		chrome.browserAction.setIcon({path: {"16": icons.ex }});
 	}
 }
