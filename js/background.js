@@ -4,19 +4,9 @@ var icons = {
 	empty: "icons/empty_username.png",
 	bad: "icons/github-danger.png"
 }, userName, commits = 0,
-	startDay = new Date(),
-	endDay = new Date(),
+	startDay,
+	endDay,
 	TIMER = 120000;
-
-startDay.setHours(0);
-startDay.setMinutes(0);
-startDay.setSeconds(0);
-endDay.setHours(23);
-endDay.setMinutes(59);
-endDay.setSeconds(59);
-
-startDay = startDay.getTime();
-endDay = endDay.getTime();
 
 chrome.storage.sync.get(function(items) {
 	if(!items.userName || items.userName == "") {
@@ -31,6 +21,17 @@ chrome.storage.sync.get(function(items) {
 });
 
 function startRequest() {
+	startDay = new Date();
+	endDay = new Date();
+	startDay.setHours(0);
+	startDay.setMinutes(0);
+	startDay.setSeconds(0);
+	endDay.setHours(23);
+	endDay.setMinutes(59);
+	endDay.setSeconds(59);
+	startDay = startDay.getTime();
+	endDay = endDay.getTime();
+
 	new Promise(function(resolve, reject) {
 			getProjects(resolve)
 		}).then(changeIcon);
