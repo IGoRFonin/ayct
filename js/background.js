@@ -55,6 +55,7 @@ function getCommits(projects, resolve) {
 	for(var i = 0; i <= max-1; i+=1) {
 		$.get("https://api.github.com/repos/" + userName + "/" + projects[i] + "/commits",
 			function(data) {
+						console.log(data);
 				commits += parseCommit(data);
 				u += 1;
 			});
@@ -72,8 +73,10 @@ function parseCommit(commit) {
 
 	for(var i = 0, max = commit.length - 1; i <= max; i+=1) {
 		var commiter = commit[i].commit.committer;
-		if(commiter.name == userName) {
-			repCommit += parseInt(todayCommit(commiter.date));
+		if(commit[i].committer) {
+			if(commit[i].committer.login == userName) {
+				repCommit += parseInt(todayCommit(commiter.date));
+			}
 		}
 	}
 	
@@ -82,6 +85,7 @@ function parseCommit(commit) {
 
 function todayCommit(string) {
 	var time = new Date(string);
+
 	time = time.getTime();
 	if(startDay <= time &&  time <= endDay) {
 		return 1;
